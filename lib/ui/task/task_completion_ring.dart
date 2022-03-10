@@ -5,13 +5,16 @@ import 'package:habit_tracker/ui/theming/app_theme.dart';
 
 class TaskCompletionRing extends StatelessWidget {
 
+  //Arguments
   final double progress;
 
+  //Constructor
   const TaskCompletionRing({Key? key,required this.progress}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
+    //Objects
     final themeData = AppTheme.of(context);
 
     return AspectRatio(
@@ -29,9 +32,11 @@ class TaskCompletionRing extends StatelessWidget {
 
 class RingPainter extends CustomPainter{
 
+  //Arguments
   final double progress;
   final Color taskCompletedColor,taskNotCompletedColor;
 
+  //Constructor
   RingPainter({required this.progress,required this.taskCompletedColor,required this.taskNotCompletedColor});
 
   @override
