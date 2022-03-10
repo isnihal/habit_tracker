@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/persistance/hive_data_store.dart';
 import 'package:habit_tracker/ui/home/tasks_grid.dart';
+import 'package:hive/hive.dart';
 
 import '../../constants/app_assets.dart';
+import '../../models/task.dart';
 import '../../models/task_preset.dart';
 
 class TasksPage extends StatelessWidget {
@@ -9,15 +12,16 @@ class TasksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TaskGrid(
-      tasks: const [
-        TaskPreset(name: 'Eat a Healthy Meal', iconName: AppAssets.carrot),
-        TaskPreset(name: 'Walk the Dog', iconName: AppAssets.dog),
-        TaskPreset(name: 'Do Some Coding', iconName: AppAssets.html),
-        TaskPreset(name: 'Meditate', iconName: AppAssets.meditation),
-        TaskPreset(name: 'Do 10 Pushups', iconName: AppAssets.pushups),
-        TaskPreset(name: 'Sleep 8 Hours', iconName: AppAssets.rest),
-      ],
+
+    final _hiveDataStore = HiveDataStore();
+
+    return ValueListenableBuilder(
+      valueListenable: _hiveDataStore.openTasksBox(),
+      builder: (context,Box<Task> box, widget) {
+        return TaskGrid(
+          tasks: box.values.toList(),
+        );
+      },
     );
   }
 }

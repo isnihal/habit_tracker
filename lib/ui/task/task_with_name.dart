@@ -4,9 +4,11 @@ import 'package:habit_tracker/models/task_preset.dart';
 import 'package:habit_tracker/ui/task/task_animation.dart';
 import 'package:habit_tracker/ui/theming/app_theme.dart';
 
+import '../../models/task.dart';
+
 class TaskWithName extends StatelessWidget {
 
-  final TaskPreset task;
+  final Task task;
 
   const TaskWithName({Key? key,required this.task}) : super(key: key);
 
@@ -17,7 +19,7 @@ class TaskWithName extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: TaskAnimation(taskIcon: task.iconName,),
+          child: TaskAnimation(taskIcon: task.iconString,),
         ),
         SizedBox(height: 16,),
         Text(
