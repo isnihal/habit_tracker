@@ -7,9 +7,11 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.of(context).primary,
-      body: SizedBox(
-        width: 240,
-        child: TaskCompletionRing(),
+      body: Center(
+        child: SizedBox(
+          width: 240,
+          child: TaskCompletionRing(progress: 0.4,),
+        ),
       ),
     );
   }
