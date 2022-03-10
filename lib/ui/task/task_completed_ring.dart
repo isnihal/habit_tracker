@@ -16,10 +16,13 @@ class TaskCompletedRing extends StatelessWidget {
     //Objects
     final theme = AppTheme.of(context);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.accent,
-        shape: BoxShape.circle,
+    return AspectRatio(
+      aspectRatio: 1,
+      child: Container(
+        decoration: BoxDecoration(
+          color: theme.accent,
+          shape: BoxShape.circle,
+        ),
       ),
     );
   }
