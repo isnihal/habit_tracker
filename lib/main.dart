@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_tracker/constants/app_assets.dart';
 import 'package:habit_tracker/constants/app_colors.dart';
 import 'package:habit_tracker/persistance/hive_data_store.dart';
@@ -20,7 +21,14 @@ Future<void> main() async {
     Task.create(name: 'Brush Your Teeth', iconString: AppAssets.toothbrush),
     Task.create(name: 'Floss Your Teeth', iconString: AppAssets.dentalFloss),
   ]);
-  runApp(MyApp());
+  runApp(
+      ProviderScope(
+        overrides: [
+          dataStoreProvider.overrideWithValue(_hiveDatastore),
+        ],
+          child: MyApp()
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {

@@ -11,7 +11,7 @@ class Task{
   @HiveField(2)
   final String iconString;
 
-  Task({required this.id, required this.name,required this.iconString});
+  const Task({required this.id, required this.name,required this.iconString});
 
   factory Task.create({required String name,required String iconString}){
     final id = Uuid().v1();
