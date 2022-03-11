@@ -22,15 +22,17 @@ class HiveDataStore{
     Hive.registerAdapter<TaskState>(TaskStateAdapter());
     //Open boxes
    await Hive.openBox<Task>(_taskBoxName);
-    await Hive.openBox<Task>(_taskStateBoxName);
+    await Hive.openBox<TaskState>(_taskStateBoxName);
     //Assign boxes
    _taskBox = Hive.box<Task>(_taskBoxName);
    _taskStateBox = Hive.box<TaskState>(_taskStateBoxName);
   }
 
   Future<void> addTasks(List<Task> tasks) async {
-    await _taskBox.clear();
-    await _taskBox.addAll(tasks);
+    //_taskBox.clear();
+    if(_taskBox.isEmpty) {
+      await _taskBox.addAll(tasks);
+    }
   }
 
   ValueListenable<Box<Task>> getTasksBoxListenable() {
@@ -44,6 +46,10 @@ class HiveDataStore{
 
   ValueListenable<Box<TaskState>> getTasksStateBoxListenable({required Task task}) {
     return Hive.box<TaskState>(_taskStateBoxName).listenable(keys: <String>[task.id]);
+  }
+
+  TaskState getTaskState(Task task){
+    return _taskStateBox.get(task.id)??TaskState(id: task.id, completed: false);
   }
 }
 

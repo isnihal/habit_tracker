@@ -9,8 +9,10 @@ import '../../models/task.dart';
 class TaskWithName extends StatelessWidget {
 
   final Task task;
+  final bool isCompleted;
+  final ValueChanged<bool>? onComplete;
 
-  const TaskWithName({Key? key,required this.task}) : super(key: key);
+  const TaskWithName({Key? key,required this.task,this.isCompleted=false,this.onComplete}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class TaskWithName extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: TaskAnimation(taskIcon: task.iconString,),
+          child: TaskAnimation(taskIcon: task.iconString,isCompleted: isCompleted,onComplete: onComplete),
         ),
         SizedBox(height: 16,),
         Text(

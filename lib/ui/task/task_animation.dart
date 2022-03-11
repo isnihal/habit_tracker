@@ -10,9 +10,11 @@ class TaskAnimation extends StatefulWidget {
 
   //Arguments
   final String taskIcon;
+  final bool isCompleted;
+  final ValueChanged<bool>? onComplete;
 
   //Constructor
-  const TaskAnimation({Key? key,required this.taskIcon}) : super(key: key);
+  const TaskAnimation({Key? key,required this.taskIcon,required this.isCompleted,required this.onComplete}) : super(key: key);
 
   @override
   State<TaskAnimation> createState() => _TaskAnimationState();
@@ -42,9 +44,10 @@ class _TaskAnimationState extends State<TaskAnimation> with SingleTickerProvider
 
     //Show a check sign if animation is completed
     if(animationStatus == AnimationStatus.completed){
+      widget.onComplete?.call(true);
       if(mounted) {
         setState(() {
-          _showCheck = true;
+          _showCheck=true;
         });
       }
       //Dismiss the check sign after 1 second
@@ -62,13 +65,14 @@ class _TaskAnimationState extends State<TaskAnimation> with SingleTickerProvider
     //Add or reset progress when a user taps
 
     //Progress the animation if it's incomplete
-    if(_controller.status!=AnimationStatus.completed) {
+    if(_controller.status!=AnimationStatus.completed && !widget.isCompleted) {
       _controller.forward();
     }
     else{
       //Reset Animation, if animation is completed and check sign is not showing
-      if(!_showCheck) {
+      if(widget.isCompleted) {
         _controller.value = 0;
+        widget.onComplete?.call(false);
       }
     }
 
@@ -76,7 +80,7 @@ class _TaskAnimationState extends State<TaskAnimation> with SingleTickerProvider
 
   void _cancelProgress(){
     //Cancel progress if user's lift or drag their finger
-    if(_controller.status!=AnimationStatus.completed) {
+    if(_controller.status!=AnimationStatus.completed && !widget.isCompleted) {
       _controller.reverse();
     }
   }
@@ -95,11 +99,11 @@ class _TaskAnimationState extends State<TaskAnimation> with SingleTickerProvider
         builder: (context,child) {
           return Stack(
             children: [
-              if (_controller.value!=1)
+              if (!widget.isCompleted)
                 TaskCompletionRing(progress: _controller.value)
               else
                 TaskCompletedRing(taskIcon: widget.taskIcon),
-              Positioned.fill(child:CenteredSvgIcon(iconName: _showCheck? AppAssets.check:widget.taskIcon, color: _controller.value!=1.0? theme.taskIcon:theme.accentNegative),)
+              Positioned.fill(child:CenteredSvgIcon(iconName: _showCheck? AppAssets.check:widget.taskIcon, color: !widget.isCompleted? theme.taskIcon:theme.accentNegative),)
             ],
           );
         }
