@@ -11,12 +11,7 @@ class HomePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 0),
         child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(child: TasksPage()),
-              HomePageBottomOptions(onFlip: (){})
-            ],
-          ),
+          child: TasksPage(),
         )
       )
     );
