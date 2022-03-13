@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class PageFlipBuilder extends StatefulWidget {
@@ -74,7 +76,21 @@ class AnimatedPage extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    return showFrontPage? frontPageBuilder(context):backPageBuilder(context);
+    //Animation value from 0,1 => [0,pi]
+    //Show front page from 0-0.5 and back page from 0.5-1
+    bool isAnimationFirstHalf = animation.value<0.5;
+    //Calculate rotation value
+    double rotationValue = animation.value * pi;
+    //Calculate rotation angle
+    double rotationAngle = isAnimationFirstHalf? rotationValue:pi-rotationValue;
+    //Add tilt for perspective value
+    double tilt = (animation.value-0.5).abs()-0.5;
+    tilt *= isAnimationFirstHalf? -0.03:0.03;
+    return Transform(
+      transform: Matrix4.rotationY(rotationAngle)..setEntry(3, 0, tilt),
+      child: isAnimationFirstHalf? frontPageBuilder(context):backPageBuilder(context),
+      alignment: Alignment.center,
+    );
   }
 }
 
