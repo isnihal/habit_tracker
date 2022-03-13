@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/ui/home/home_page_bottom_options.dart';
 import 'package:habit_tracker/ui/home/tasks_page.dart';
 import 'package:habit_tracker/ui/theming/app_theme.dart';
 
@@ -8,8 +9,15 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.of(context).primary,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 16),
-        child: TasksPage()
+        padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 0),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(child: TasksPage()),
+              HomePageBottomOptions(onFlip: (){})
+            ],
+          ),
+        )
       )
     );
   }

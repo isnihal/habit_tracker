@@ -17,7 +17,7 @@ class TasksPage extends ConsumerWidget {
     final _hiveDataStore = ref.watch<HiveDataStore>(dataStoreProvider);
 
     return ValueListenableBuilder(
-      valueListenable: _hiveDataStore.getTasksBoxListenable(),
+      valueListenable: _hiveDataStore.getFrontPageTasksBoxListenable(),
       builder: (context,Box<Task> box, widget) {
         return TaskGrid(
           tasks: box.values.toList(),
