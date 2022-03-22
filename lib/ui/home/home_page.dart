@@ -8,11 +8,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.of(context).primary,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 0),
-        child: SafeArea(
-          child: TasksPage(),
-        )
+      body: SafeArea(
+        child: TasksPage(),
       )
     );
   }
